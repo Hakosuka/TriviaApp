@@ -23,6 +23,7 @@ import android.view.ViewGroup
 import androidx.appcompat.app.AppCompatActivity
 import androidx.databinding.DataBindingUtil
 import androidx.fragment.app.Fragment
+import androidx.navigation.findNavController
 import com.example.android.navigation.databinding.FragmentGameBinding
 
 class GameFragment : Fragment() {
@@ -32,7 +33,7 @@ class GameFragment : Fragment() {
 
     // The first answer is the correct one.  We randomize the answers before showing the text.
     // All questions must have four answers.  We'd want these to contain references to string
-    // resources so we could internationalize. (or better yet, not define the questions in code...)
+    // resources so we could internationalise. (or better yet, not define the questions in code...)
     private val questions: MutableList<Question> = mutableListOf(
             Question(text = "What is Android Jetpack?",
                     answers = listOf("all of these", "tools", "documentation", "libraries")),
@@ -69,7 +70,7 @@ class GameFragment : Fragment() {
                 inflater, R.layout.fragment_game, container, false)
 
         // Shuffles the questions and sets the question index to the first question.
-        randomizeQuestions()
+        randomiseQuestions()
 
         // Bind this fragment class to the layout
         binding.game = this
@@ -77,6 +78,7 @@ class GameFragment : Fragment() {
         // Set the onClickListener for the submitButton
         binding.submitButton.setOnClickListener @Suppress("UNUSED_ANONYMOUS_PARAMETER")
         { view: View ->
+            // Get the ID of the checked RadioButton (if any)
             val checkedId = binding.questionRadioGroup.checkedRadioButtonId
             // Do nothing if nothing is checked (id == -1)
             if (-1 != checkedId) {
@@ -97,17 +99,21 @@ class GameFragment : Fragment() {
                         binding.invalidateAll()
                     } else {
                         // We've won!  Navigate to the gameWonFragment.
+                        view.findNavController()
+                                .navigate(R.id.action_gameFragment_to_gameWonFragment)
                     }
                 } else {
                     // Game over! A wrong answer sends us to the gameOverFragment.
+                    view.findNavController()
+                            .navigate(R.id.action_gameFragment_to_gameOverFragment2)
                 }
             }
         }
         return binding.root
     }
 
-    // randomize the questions and set the first question
-    private fun randomizeQuestions() {
+    // randomise the questions and set the first question
+    private fun randomiseQuestions() {
         questions.shuffle()
         questionIndex = 0
         setQuestion()
