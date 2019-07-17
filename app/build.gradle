@@ -15,10 +15,9 @@
  */
 
 apply plugin: 'com.android.application'
-
 apply plugin: 'kotlin-android'
-
 apply plugin: 'kotlin-kapt'
+apply plugin: 'androidx.navigation.safeargs'
 apply plugin: 'kotlin-android-extensions'
 
 android {
@@ -58,6 +57,7 @@ dependencies {
 
     // Material Design
     implementation "com.google.android.material:material:$version_material"
+    //implementation "com.google.android.material:material:$supportlibVersion"
     implementation 'androidx.legacy:legacy-support-v4:1.0.0'
     //Removed due to conflicts with the android.arch navigation dependencies
     //implementation 'androidx.navigation:navigation-fragment-ktx:2.0.0-rc02'
