@@ -20,6 +20,8 @@ import android.os.Bundle
 import androidx.appcompat.app.AppCompatActivity
 import androidx.databinding.DataBindingUtil
 import androidx.drawerlayout.widget.DrawerLayout
+import androidx.navigation.NavController
+import androidx.navigation.NavDestination
 import androidx.navigation.findNavController
 import androidx.navigation.ui.NavigationUI
 import com.example.android.navigation.databinding.ActivityMainBinding
@@ -36,6 +38,14 @@ class MainActivity : AppCompatActivity() {
         //NavController setup
         val navController = this.findNavController(R.id.frag_nav_host)
         NavigationUI.setupActionBarWithNavController(this, navController, drawerLayout)
+        navController.addOnDestinationChangedListener {
+            nCon: NavController, nDest: NavDestination, args: Bundle? ->
+                if(nDest.id == nCon.graph.startDestination) {
+                    drawerLayout.setDrawerLockMode(DrawerLayout.LOCK_MODE_UNLOCKED)
+                } else {
+                    drawerLayout.setDrawerLockMode(DrawerLayout.LOCK_MODE_LOCKED_CLOSED) //Just in case "LOCKED" or "CLOSED" was a tad ambiguous
+                }
+        }
         NavigationUI.setupWithNavController(binding.navView, navController)
     }
 
